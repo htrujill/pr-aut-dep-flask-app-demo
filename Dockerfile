@@ -22,8 +22,8 @@ WORKDIR /app
 
 RUN pip3 install -r requirements.txt
 
-COPY ./docker/web/b.crt /usr/local/share/ca-certificates/b.crt
-RUN update-ca-certificates
+# COPY ./docker/web/b.crt /usr/local/share/ca-certificates/b.crt
+# RUN update-ca-certificates
 
 ENV FLASK_APP app.py
 ENV FLASK_RUN_HOST 0.0.0.0
