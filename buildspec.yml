@@ -1,0 +1,51 @@
+version: 0.2
+
+env:
+  exported-variables:
+    - AWS_DEFAULT_REGION
+
+phases:
+  install:
+    commands:
+      - docker login -u $dockerhub_username -p $dockerhub_password
+    # runtime-versions:      
+  #     docker: 18
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
+      - echo $REPOSITORY_URI
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
+      - echo $REPOSITORY_URI
+      - dockerBuildResult=$(docker build -t $REPOSITORY_URI:latest .)
+      # - echo $dockerBuildResult
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo $dockerBuildResult
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
+      - echo $REPOSITORY_URI
+      # - docker push $REPOSITORY_URI:latest
+      - echo "Image name in ECR"
+      - echo $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      # - printf '[{"name":"clv-bengine-core-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"clv-bengine-core-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+artifacts:
+  #files: imagedefinitions.json
+  files: 
+    - imagedefinitions.json
+    - imageDetail.json
+    - appspec.yaml
+    - taskdef.json
