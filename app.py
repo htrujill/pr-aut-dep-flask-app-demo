@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    resp = {'code': '200', 'message': 'blue/green deployment successfully executed!'}
+    resp = {'code': '200', 'message': 'blue/green deployment successfully executed!', 'message2': 'Blue/green rules!'}
     return jsonify(resp)
 
 if __name__ == '__main__':
