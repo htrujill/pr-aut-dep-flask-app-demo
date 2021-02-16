@@ -2,6 +2,9 @@
     "executionRoleArn": "arn:aws:iam::762798326233:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
+            "command": [],
+            "entryPoint": [],
+            "links": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -28,6 +31,5 @@
     "networkMode": "awsvpc",
     "cpu": "256",
     "memory": "512",
-    "family": "clv-bengine-core-api-task",
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:762798326233:task-definition/clv-bengine-core-api-task:25"
+    "family": "clv-bengine-core-api-task"
 }
