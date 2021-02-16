@@ -3,8 +3,8 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "<TASK_DEFINITION>"
+        TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
-          ContainerName: "clv-bengine-core-api-container"
+          ContainerName: "clv-bengine-core-api-container-2"
           ContainerPort: 80
         PlatformVersion: "LATEST"
