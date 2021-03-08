@@ -15,7 +15,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core-repository
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
       - echo $REPOSITORY_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -23,7 +23,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core-repository
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
       - echo $REPOSITORY_URI
       - dockerBuildResult=$(docker build -t $REPOSITORY_URI:latest .)
       # - echo $dockerBuildResult
@@ -33,7 +33,7 @@ phases:
       - echo $dockerBuildResult
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core-repository
+      - REPOSITORY_URI=762798326233.dkr.ecr.us-east-1.amazonaws.com/clv-bengine-core
       - echo $REPOSITORY_URI
       # - docker push $REPOSITORY_URI:latest
       - echo "Image name in ECR"
